@@ -1,0 +1,25 @@
+{
+  "name": "ProjetoIntegradorBackend",
+  "version": "1.0.0",
+  "description": "Projeto para criação de backend do SGAH",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LedySilva/ProjetoIntegradorBackend.git"
+  },
+  "author": "Ledy Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LedySilva/ProjetoIntegradorBackend/issues"
+  },
+  "homepage": "https://github.com/LedySilva/ProjetoIntegradorBackend#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.3",
+    "yup": "^0.32.9"
+  }
+}
