@@ -1,9 +1,6 @@
-const express = require('express')
-
-const routes = require('./routes.js')
-
-const db = require('./database/mongodb.js')
-
+import express from "express"
+import routes from "./routes.js"
+import "./database/Connection.js"
 
 class App {
   constructor() {
@@ -21,4 +18,4 @@ class App {
   }
 }
 
-module.exports = new App().app
+export default new App().app

@@ -1,7 +1,6 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
-const Usuarios
- = new mongoose.Schema(
+const Usuarios = new mongoose.Schema(
    {
     nome:  {type: String, required: true},
     login: {type: String, required: true},
@@ -14,4 +13,4 @@ const Usuarios
   }
 )
 
-module.exports = mongoose.model('usuarios', Usuarios)
+export default mongoose.model('usuarios', Usuarios);

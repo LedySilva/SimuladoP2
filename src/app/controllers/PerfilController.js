@@ -1,7 +1,6 @@
-const Yup = require('yup')
-
-const Perfis = require('../models/Perfis.js')
-const Usuarios = require('../models/Usuarios.js')
+import * as Yup from 'yup'
+import Perfis from "../models/Perfis.js"
+import Usuarios from "../models/Usuarios.js"
 
 class PerfilController {
 
@@ -118,6 +117,4 @@ class PerfilController {
 
 }
 
-
-
-module.exports = new PerfilController()
+export default new PerfilController()

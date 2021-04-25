@@ -1,5 +1,5 @@
-const app = require('./app.js')
+import app from './app.js'
 
-app.listen(8080, function () {
-  console.log('Inicializado!')
-});
+app.listen(3000, function () {
+  console.log('Servidor inicializado!')
+})

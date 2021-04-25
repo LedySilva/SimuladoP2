@@ -1,7 +1,6 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
-const Perfis
- = new mongoose.Schema(
+const Perfis = new mongoose.Schema(
    {
     nome: {type: String, required: true}
   },
@@ -10,4 +9,4 @@ const Perfis
   }
 )
 
-module.exports = mongoose.model('perfis', Perfis)
+export default mongoose.model('perfis', Perfis);

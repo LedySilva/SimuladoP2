@@ -1,6 +1,6 @@
-const Yup = require('yup')
-const bcrypt = require('bcryptjs')
-const Usuarios = require('../models/Usuarios.js')
+import * as Yup from 'yup'
+import * as bcrypt from 'bcryptjs'
+import Usuarios from "../models/Usuarios.js"
 
 class AcessoController {
 
@@ -40,11 +40,6 @@ class AcessoController {
   }
 
 
-
-
-
-
-
 }
 
-module.exports = new AcessoController()
+export default new AcessoController()

@@ -1,7 +1,6 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
-const Medicos
- = new mongoose.Schema(
+const Medicos = new mongoose.Schema(
    {
       crm:              {type: String, required: true}, 
       nome:             {type: String, required: true},
@@ -16,4 +15,4 @@ const Medicos
   }
 )
 
-module.exports = mongoose.model('medicos', Medicos)
+export default mongoose.model('medicos', Medicos);
