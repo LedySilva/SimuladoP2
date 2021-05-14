@@ -52,7 +52,7 @@ class ConveniosController {
   async criar(request, response) {
     const schema = Yup.object().shape({
       nome: Yup.string().required().min(5),
-      inicio: Yup.date().default(function () { return new Date() }),
+      inicio: Yup.date(),
       termino: Yup.date()
     })
 
@@ -67,38 +67,14 @@ class ConveniosController {
       return response.status(400).json({ codigo: 102, mensagem: 'Este convênio já esta em uso! Informe outro' })
     }
 
-    await Convenios.create(request.body, function (erro) {
-      if (erro) {
-        return response.status(400).json({ codigo: 103, mensagem: 'Erro no BD ao cadastrar convênio' })
-      }
-    })
-
-    return response.status(200).json({ codigo: 6, mensagem: 'Comvênio criado!' })
-  }
-
-
-  /**
-   * Aqui verifica se convenio está vigente (data de início menor que hoje e data de termino nula ou maior que hoje)
-   */
-  async vigencia(request, response) {
-    const id = request.body.id || request.params.id || request.query.id
-    await Convenios.findOne({ _id: request.params.id }, request.body)
-      // query db.Collection.find({
-      // created_at : {
-      // '$gte': new Timestamp(new Date(2012, 0, 21), 0),
-      // '$lte': new Timestamp(new Date(2012, 0, 22), 0)
-      // })
-
-      .then(function (vigenciaResponse) {
-        // const vigenciaResponse = existe então true
-        return response.status(200).json({ codigo: 5, mensagem: 'Convênio atualizado', retorno: vigenciaResponse })
+    await Convenios.create(request.body)
+      .then(function (retorno) {
+        return response.status(200).json({ codigo: 5, mensagem: 'Convênio criado!', retorno: retorno })
       })
       .catch(function (erro) {
-        return response.status(400).json({ codigo: 109, mensagem: 'Erro ao verificar vigência de convênio' })
+        return response.status(400).json({ codigo: 109, mensagem: 'Erro ao criar convênio', retorno: erro})
       })
   }
-
-
 
 
 

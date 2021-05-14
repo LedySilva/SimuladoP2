@@ -63,15 +63,14 @@ class MedicosController {
  */
   async criar (request, response) {
     const schema = Yup.object().shape({
-        crm:              {type: String, required: true}, 
-        nome:             {type: String, required: true},
-        endereco:         {type: String, required: true},
-        cpf:              {type: String, required: true},
-        data_nascimento:  {type: Date, required: true},
-        matricula:        {type: String, required: true},
-        especialidades: []
+      crm: Yup.string().required(), 
+      nome: Yup.string().required(),
+      endereco: Yup.string().required(),
+      cpf: Yup.string().required(),
+      data_nascimento: Yup.date(),
+      matricula: Yup.string().required()
     })
-
+    
     // Validar se os campos estão preenchidos e de acordo
     if (!(await schema.isValid(request.body))) {
       return response.status(400).json({codigo: 101, mensagem: 'Informações incorretas'})
@@ -96,6 +95,14 @@ class MedicosController {
    
 
     // Criando um novo Médico
+    await Medicos.create(request.body)
+    .then(function (retorno) {
+      return response.status(200).json({ codigo: 5, mensagem: 'Médico cadastrado!', retorno: retorno })
+    })
+    .catch(function (erro) {
+      return response.status(400).json({ codigo: 109, mensagem: 'Erro ao cadastrar novo médico', retorno: erro })
+    })
+/*
     await Medicos.create(request.body, function (erro) {
       if (erro) {
         return response.status(400).json({codigo: 103, mensagem: 'Erro no BD ao cadastrar Médico!'})
@@ -103,6 +110,7 @@ class MedicosController {
     })
 
     return response.status(200).json({codigo: 6, mensagem: 'Médico criado!'})
+    */
   }
 
   

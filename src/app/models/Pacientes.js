@@ -6,8 +6,7 @@ const Pacientes = new mongoose.Schema(
       nome:             {type: String, required: true},
       data_nascimento:  {type: Date, required: true},
       endereco:         {type: String, required: true},
-      convenios: [],
-      prontuario: []
+      convenios: []
   },
   {
     timestamps: true

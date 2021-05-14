@@ -64,10 +64,10 @@ class PacientesController {
  */
   async criar (request, response) {
     const schema = Yup.object().shape({
-        cpf:              {type: String, required: true},
-        nome:             {type: String, required: true},
-        data_nascimento:  {type: Date, required: true},
-        endereco:         {type: String, required: true}
+        cpf: Yup.string().required().min(14),
+        nome:  Yup.string().required().min(5),
+        data_nascimento: Yup.date().required(),
+        endereco: Yup.string().required().min(5)
     })
 
     // Validar se os campos estão preenchidos e de acordo
@@ -81,13 +81,13 @@ class PacientesController {
      }
    
     // Criando um novo Paciente
-    await Pacientes.create(request.body, function (erro) {
-      if (erro) {
-        return response.status(400).json({codigo: 103, mensagem: 'Erro no BD ao cadastrar Paciente!'})
-      }
+    await Pacientes.create(request.body)
+    .then(function (retorno) {
+      return response.status(200).json({ codigo: 5, mensagem: 'Paciente criado!', retorno: retorno })
     })
-
-    return response.status(200).json({codigo: 6, mensagem: 'Paciente criado!'})
+    .catch(function (erro) {
+      return response.status(400).json({ codigo: 109, mensagem: 'Erro ao criar paciente', retorno: erro})
+    })
   }
 
 

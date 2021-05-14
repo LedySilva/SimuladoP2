@@ -1,34 +1,22 @@
 <html>
+<head>
+    <!--
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    -->
+</head>
 
 <body>
-    <h1>Formulário de Testes</h1>
+    <h1>Agenda de Consultas</h1>
+   
 
-    <form>
-        <select id="rotas">
-            <option value="/usuarios" metodo="GET" parametros="1" corpo="0">Listar usuario</option>
-            <option value="/usuarios/login" metodo="PUT" parametros="1" corpo="1">Listar usuario</option>
-            <option value="/usuario" metodo="GET" parametros="0" corpo="1">Listar usuario</option>
-            <option value="/usuarios/" metodo="POST" parametros="0" corpo="1">Listar usuario</option>
-        </select>
-        <br/><br/>
-
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="fname"><br>
-        <br/><br/>
-        
-        <label for="lname">Last name:</label><br>
-        <input type="text" id="lname" name="lname">
-        <br/><br/>
-
-        <button onclick="enviar()" type="button">Enviar</button>
-    </form>
-
+    <!--
     <form>
         <select id="rota">
-            <option value="/usuarios" data-metodo="GET" data-parametros="1" corpo="0">Listar usuario</option>
-            <option value="/usuarios/login" data-metodo="PUT" data-parametros="1" corpo="1">Listar usuario</option>
-            <option value="/usuario" data-metodo="GET" data-parametros="0" corpo="1">Listar usuario</option>
-            <option value="/usuarios/" data-metodo="POST" data-parametros="0" corpo="1">Listar usuario</option>
+            <option value="/usuarios" data-metodo="GET" data-parametros="1" data-corpo="0">Listar  1</option>
+            <option value="/usuarios/login" data-metodo="PUT" data-parametros="1" data-corpo="1">Listar 2</option>
+            <option value="/usuario" data-metodo="GET" data-parametros="0" data-corpo="1">Listar 3</option>
+            <option value="/usuarios/" data-metodo="POST" data-parametros="0" data-corpo="1">Listar 4</option>
         </select>
       </form>
       <br/>
@@ -38,6 +26,8 @@
         function processar() {
             var option = document.getElementsByTagName("option")[0];
             alert(option.dataset.metodo);
+            alert(option.dataset.parametros);
+            alert(option.dataset.corpo);
             
             var selecaoRota = document.getElementById("rota");
             var rota = selecaoRota.value;
@@ -64,8 +54,9 @@
 
             console.log('Teste', rotas, metodo, parametro, corpo);
         }
-
     </script>
+    -->
+
 
 </body>
 

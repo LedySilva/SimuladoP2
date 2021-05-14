@@ -41,7 +41,7 @@ routes.put('/perfil/desvinculo', PerfilController.desvincular); // Desvincula pe
 routes.get('/medicos', MedicosController.listar); // Listar medicos
 routes.get('/medico/:id', MedicosController.medicos); // Listar medico especifico
 routes.post('/medico', MedicosController.criar); // Criar um medico
-routes.delete('/medico', MedicosController.excluir); // Excluir um medico
+routes.delete('/medico/:id', MedicosController.excluir); // Excluir um medico
 routes.put('/medico/:id', MedicosController.atualizar); // Atualizar um medico
 routes.put('/medico/vincular', MedicosController.vincular); // Vincula especialidade a um medico
 routes.put('/medico/desvincular', MedicosController.desvincular); // Desvincula especialidade de um medico
@@ -52,7 +52,7 @@ routes.put('/medico/desvincular', MedicosController.desvincular); // Desvincula 
 routes.get('/especialidades', EspecialidadesController.listar); // Listar especialidades
 routes.get('/especialidade/:id', EspecialidadesController.especialidade); // Listar especialidade especifica
 routes.post('/especialidade', EspecialidadesController.criar); // Criar uma especialidade
-routes.delete('/especialidade', EspecialidadesController.excluir); // Excluir uma especialidade
+routes.delete('/especialidade/:id', EspecialidadesController.excluir); // Excluir uma especialidade
 routes.put('/especialidade/:id', EspecialidadesController.atualizar); // Atualizar uma especialidade
 routes.put('/especialidade/vincular', EspecialidadesController.vincular); // Vincula serviço a uma especialidade
 routes.put('/especialidade/desvincular', EspecialidadesController.desvincular); // Desvincula serviço de uma especialidade
@@ -63,7 +63,7 @@ routes.put('/especialidade/desvincular', EspecialidadesController.desvincular); 
 routes.get('/servicos', ServicosController.listar); // Listar servicos
 routes.get('/servico/:id', ServicosController.servico); // Listar servico especifico
 routes.post('/servico', ServicosController.criar); // Criar um servico
-routes.delete('/servico', ServicosController.excluir); // Excluir um servico
+routes.delete('/servico/:id', ServicosController.excluir); // Excluir um servico
 routes.put('/servico/:id', ServicosController.atualizar); // Atualizar um servico
 // End rotas de Servicos
 
@@ -71,9 +71,8 @@ routes.put('/servico/:id', ServicosController.atualizar); // Atualizar um servic
 // Rotas de Convenios --------------------------------------------
 routes.get('/convenios', ConveniosController.listar); // Listar Convenios
 routes.get('/convenios/:id', ConveniosController.convenio); // Listar convenios especifico
-routes.post('/convenios', ConveniosController.criar); // Criar um convenio
+routes.post('/convenio', ConveniosController.criar); // Criar um convenio
 routes.put('/convenios/:id', ConveniosController.atualizar); // Atualizar um convenio
-routes.put('/convenios/vigencia/:id', ConveniosController.vigencia); // Verifica se convenio está vigente
 // End rotas de Convenios
 
 
@@ -81,7 +80,7 @@ routes.put('/convenios/vigencia/:id', ConveniosController.vigencia); // Verifica
 routes.get('/pacientes', PacientesController.listar); // Listar pacientes
 routes.get('/paciente/:id', PacientesController.paciente); // Listar paciente especifico
 routes.post('/paciente', PacientesController.criar); // Criar um paciente
-routes.delete('/paciente', PacientesController.excluir); // Excluir um paciente
+routes.delete('/paciente/:id', PacientesController.excluir); // Excluir um paciente
 routes.put('/paciente/:id', PacientesController.atualizar); // Atualizar um paciente
 routes.put('/paciente/vincular', PacientesController.vincular); // Vincula especialidade a um paciente
 routes.put('/paciente/desvincular', PacientesController.desvincular); // Desvincula especialidade de um paciente
@@ -91,9 +90,9 @@ routes.put('/paciente/desvincular', PacientesController.desvincular); // Desvinc
 // Rotas de Agendas --------------------------------------------
 routes.get('/agenda', AgendasController.listar); // Listar agendamentos
 routes.get('/agenda/:id', AgendasController.agenda); // Listar agendamento especifico
-routes.get('/agenda/periodo', AgendasController.listarPeriodo); // Listar agendamentos em um Período
-routes.post('/agenda', AgendasController.criar); // Criar um agendamento
-routes.delete('/agenda', AgendasController.excluir); // Excluir um agendamento
+routes.post('/agenda/periodo', AgendasController.listarPeriodo); // Listar agendamentos em um Período
+routes.post('/agenda', AgendasController.agendar); // Criar um agendamento
+routes.delete('/agenda/:id', AgendasController.cancelar); // Excluir um agendamento
 routes.put('/agenda/:id', AgendasController.atualizar); // Atualizar um agendamento
 // End rotas de Agendas
 
