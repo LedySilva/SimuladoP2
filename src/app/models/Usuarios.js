@@ -6,7 +6,8 @@ const Usuarios = new mongoose.Schema(
     login: {type: String, required: true},
     email: {type: String, required: true},
     senha: {type: String, required: true},
-    perfis: []
+    perfis: [],
+    role: String
   },
   {
     timestamps: true
