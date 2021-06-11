@@ -154,21 +154,26 @@ class UsuarioController {
    * Lista todos os post do usuario autenticado
    */
   async listaTodosPostUsuario(request, response) {
-
-    const usuario = await Usuarios.findOne({ email: request.body.email })
-
-    return response.status(200).json({ codigo: 5, mensagem: 'Posts do Usuario', retorno: usuario.posts })
+    await Usuarios.findOne({_id: request.params.id_user})
+      .then(function (usuariosResponse) {
+        return response.status(200).json({ codigo: 5, mensagem: 'Posts do Usuario', retorno: usuario.posts })
+      })
+      .catch(function (erro) {
+        return response.status(400).json({ codigo: 105, mensagem: 'Erro ao listar posts do usuario' })
+      })
   }
-
 
   /**
    * Lista um post específico do usuario autenticado
    */
   async listaPostUsuario(request, response) {
-
-    const usuario = await Usuarios.findOne({ email: request.body.email })
-
-    return response.status(200).json({ codigo: 5, mensagem: 'Posts do Usuario', retorno: usuario.posts })
+    await Usuarios.findOne({ _id: request.params.id_user, "posts.id": request.params.id_post })
+      .then(function (usuariosResponse) {
+        return response.status(200).json({ codigo: 2, mensagem: 'Post especifico de Usuario', retorno: usuariosResponse.posts })
+      })
+      .catch(function (erro) {
+        return response.status(400).json({ codigo: 105, mensagem: 'Erro ao pegar post de usuario' })
+      })
   }
 
 
@@ -176,10 +181,13 @@ class UsuarioController {
    * Editar um post específico do usuario autenticado
    */
   async editaPostUsuario(request, response) {
-
-    const usuario = await Usuarios.findOne({ email: request.body.email })
-
-    return response.status(200).json({ codigo: 5, mensagem: 'Posts do Usuario', retorno: usuario.posts })
+    await Usuarios.updateOne({ _id: request.params.id_user, "posts.id": request.params.id_post }, request.body)
+      .then(function (updateResponse) {
+        return response.status(200).json({ codigo: 5, mensagem: 'Post atualizado' })
+      })
+      .catch(function (erro) {
+        return response.status(400).json({ codigo: 109, mensagem: 'Erro ao atualizar post de usuario' })
+      })
   }
 
 
@@ -197,21 +205,14 @@ class UsuarioController {
       return response.status(400).json({ codigo: 101, mensagem: 'Informações incompletas' })
     }
 
-    // TODO trocar por função de valiação de token
-    const usuarioExiste = await Usuarios.findOne({ email: request.body.email })
+    const usuarioExiste = await Usuarios.findOne({ _id: request.params.id_user })
     if (usuarioExiste) {
       return response.status(400).json({ codigo: 109, mensagem: 'Usuario não existe' })
     }
 
-    usuarioExiste.perfis.push()
+    usuarioExiste.posts.push(request.body)
 
-    await Usuarios.updateOne({ _id: request.body.idUsuario }, usuarioExiste)
-      .then(function (updateResponse) {
-        return response.status(200).json({ codigo: 5, mensagem: 'Usuario atualizado com novo perfil', retorno: usuarioExiste })
-      })
-      .catch(function (erro) {
-        return response.status(400).json({ codigo: 109, mensagem: 'Erro ao atualizar usuario com perfil' })
-      })
+    return response.status(200).json({ codigo: 5, mensagem: 'Post adicionado ao usuario', retorno: usuarioExiste.posts })
   }
 
 
@@ -219,10 +220,13 @@ class UsuarioController {
    * Exclui post específico do usuario autenticado
    */
   async excluiPostUsuario(request, response) {
+    const postExcluido = await Usuarios.deleteOne({ _id: request.params.id_user, "posts.id": request.params.id_post })
 
-    const usuario = await Usuarios.findOne({ email: request.body.email })
+    if (postExcluido.deletedCount > 0) {
+      return response.status(200).json({ codigo: 4, mensagem: 'Post excluído!' })
+    }
 
-    return response.status(200).json({ codigo: 5, mensagem: 'Posts do Usuario', retorno: usuario.posts })
+    return response.status(400).json({ codigo: 110, mensagem: 'Erro ao tentar excluir o post' })
   }
 
 
@@ -254,7 +258,7 @@ class UsuarioController {
    * Lista dados de um usuario especifico
    */
   async listaUsuarioEspecifico(request, response) {
-    await Usuarios.findOne({ _id: request.params.id })
+    await Usuarios.findOne({ _id: request.params.id_user })
       .then(function (usuariosResponse) {
         return response.status(200).json({ codigo: 2, mensagem: 'Dados de Usuarios', retorno: usuariosResponse })
       })
@@ -269,7 +273,7 @@ class UsuarioController {
    * Lista posts de usuario específico
    */
   async listaPostsUsuarioEspecifico(request, response) {
-    await Usuarios.findOne({ _id: request.params.id })
+    await Usuarios.findOne({ _id: request.params.id_user })
       .then(function (usuariosResponse) {
         return response.status(200).json({ codigo: 2, mensagem: 'Posts de Usuarios', retorno: usuariosResponse.posts })
       })
@@ -284,9 +288,8 @@ class UsuarioController {
    * Lista post específico de um usuario específico
    */
   async postUsuarioEspecifico(request, response) {
-    await Usuarios.findOne({ _id: request.params.id })
+    await Usuarios.findOne({ _id: request.params.id_user, "posts.id": request.params.id_post })
       .then(function (usuariosResponse) {
-        // não sei como fazer ainda
         return response.status(200).json({ codigo: 2, mensagem: 'Post especifico de Usuario', retorno: usuariosResponse.posts })
       })
       .catch(function (erro) {
