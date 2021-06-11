@@ -1,7 +1,8 @@
 import { Router } from "express"
 import UsuarioController from "./app/controllers/UsuarioController.js"
 import path from "path"
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'url'
+import authMiddleware from "./middlewares/auth.js"
 
 const routes = new Router()
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -17,9 +18,9 @@ routes.post('/signin', UsuarioController.criaUsuario);
 
 
 // Rotas de Usuario Autenticado --------------------------------------------
-routes.get('/profile', UsuarioController.dadosUsuario);
-routes.put('/profile/:id', UsuarioController.atualizaUsuario);
-routes.delete('/profile/:id', UsuarioController.excluiUsuario);
+routes.get('/profile', authMiddleware, UsuarioController.dadosUsuario);
+routes.put('/profile/:id', authMiddleware, UsuarioController.atualizaUsuario);
+routes.delete('/profile/:id', authMiddleware, UsuarioController.excluiUsuario);
 // End rotas de Usuario Autenyicado
 
 

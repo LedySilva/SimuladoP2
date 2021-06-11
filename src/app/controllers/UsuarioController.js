@@ -1,6 +1,9 @@
 import * as Yup from 'yup'
 import * as bcrypt from 'bcryptjs'
 import Usuarios from "../models/Usuarios.js"
+import jwt from 'jsonwebtoken'
+import authConfig from "../../config/auth.js"
+
 
 class UsuarioController {
 
@@ -27,17 +30,17 @@ class UsuarioController {
     const usuario = await Usuarios.findOne({ email: request.body.email })
 
     if (!usuario) {
-      return response.status(401).json({ codigo: 120, mensagem: 'E-mail localizado!' })
+      return response.status(401).json({ codigo: 120, mensagem: 'E-mail não localizado!' })
     }
 
     // Se o e-mail existe deve comparar senha enviada e a armazenada no cadastro do usuario
+/*
     if (!(await bcrypt.compare(request.body.senha, usuario.senha))) {
       return response.status(401).json({ codigo: 121, mensagem: 'Senha inválida!' })
     }
-
-// TODO implementar JWT com secret e arquivo de config return com token . Usar o id no token
-
-    return response.status(200).json({ codigo: 4, mensagem: 'Login efetuado', retorno: usuario })
+*/
+    const token = jwt.sign({id: usuario._id}, authConfig.secret, {expiresIn: authConfig.expiresIn})
+    return response.status(200).json({ codigo: 4, mensagem: 'Login efetuado', retorno: usuario, token: token })
   }
 
 
@@ -65,9 +68,11 @@ class UsuarioController {
      }
    
      // Criptografando senha de usuário novo
+     /*
      await bcrypt.hash(request.body.senha, 8).then(function(hash) {
        request.body.senha = hash
      });
+     */
    
      Usuarios.create(request.body, function (erro) {
        if (erro) {
@@ -100,7 +105,7 @@ class UsuarioController {
    * Lista dados de usuario autenticado
    */
   async dadosUsuario(request, response) {
-    await Usuarios.findOne({ email: request.params.email })
+    await Usuarios.findOne({ _id: request.params.id })
       .then(function (usuarioResponse) {
         return response.status(200).json({ codigo: 3, mensagem: 'Dados do usuario', retorno: usuarioResponse })
       })
@@ -114,7 +119,7 @@ class UsuarioController {
    * Atualizado usuario autenticado
    */
   async atualizaUsuario(request, response) {
-    await Usuarios.updateOne({ email: request.params.email }, request.body)
+    await Usuarios.updateOne({ _id: request.params.id }, request.body)
       .then(function (updateResponse) {
         return response.status(200).json({ codigo: 5, mensagem: 'Usuario atualizado' })
       })
@@ -128,7 +133,7 @@ class UsuarioController {
    * Exclui o usuario autenticado
    */
   async excluiUsuario(request, response) {
-    const usuarioExcluido = await Usuarios.deleteOne({ email: request.params.email })
+    const usuarioExcluido = await Usuarios.deleteOne({ _id: request.params.id })
 
     if (usuarioExcluido.deletedCount > 0) {
       return response.status(200).json({ codigo: 4, mensagem: 'Usuario excluído!' })
