@@ -29,7 +29,7 @@ routes.get('/profile/posts/:id_user', authMiddleware, UsuarioController.listaTod
 routes.get('/profile/:id_user/posts/:id_post', authMiddleware, UsuarioController.listaPostUsuario);
 routes.post('/profile/:id_user/posts', authMiddleware, UsuarioController.adicionaPostUsuario);
 routes.put('/profile/:id_user/posts/:id_post', authMiddleware, UsuarioController.editaPostUsuario);
-routes.delete('/profile/posts/:id_post', authMiddleware, UsuarioController.excluiPostUsuario);
+routes.delete('/profile/:id_user/posts/:id_post', authMiddleware, UsuarioController.excluiPostUsuario);
 // End rotas de Posts Usuario
 
 

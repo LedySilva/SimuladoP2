@@ -34,11 +34,10 @@ class UsuarioController {
     }
 
     // Se o e-mail existe deve comparar senha enviada e a armazenada no cadastro do usuario
-/*
     if (!(await bcrypt.compare(request.body.senha, usuario.senha))) {
       return response.status(401).json({ codigo: 121, mensagem: 'Senha inválida!' })
     }
-*/
+
     const token = jwt.sign({id: usuario._id}, authConfig.secret, {expiresIn: authConfig.expiresIn})
     return response.status(200).json({ codigo: 4, mensagem: 'Login efetuado', retorno: usuario, token: token })
   }
@@ -68,11 +67,9 @@ class UsuarioController {
      }
    
      // Criptografando senha de usuário novo
-     /*
      await bcrypt.hash(request.body.senha, 8).then(function(hash) {
        request.body.senha = hash
      });
-     */
    
      Usuarios.create(request.body, function (erro) {
        if (erro) {
@@ -86,13 +83,6 @@ class UsuarioController {
     return response.status(200).json({codigo: 120, mensagem: 'Erro: ' + e})
    }
 }
-
-
-  /**
-  * Sair (logout)
-  */
-  async logout(request, response) {
-  }
 
 
 
