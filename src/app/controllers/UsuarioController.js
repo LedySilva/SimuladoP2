@@ -206,13 +206,19 @@ class UsuarioController {
     }
 
     const usuarioExiste = await Usuarios.findOne({ _id: request.params.id_user })
-    if (usuarioExiste) {
+    if (!usuarioExiste) {
       return response.status(400).json({ codigo: 109, mensagem: 'Usuario não existe' })
     }
 
     usuarioExiste.posts.push(request.body)
 
-    return response.status(200).json({ codigo: 5, mensagem: 'Post adicionado ao usuario', retorno: usuarioExiste.posts })
+    await Usuarios.updateOne({ _id: request.params.id_user }, usuarioExiste)
+    .then(function (updateResponse) {
+      return response.status(200).json({codigo: 5, mensagem: 'Post novo criado', retorno: usuarioExiste.posts})
+    })
+    .catch(function (erro) {
+      return response.status(400).json({codigo: 109, mensagem: 'Erro ao criar post'})
+    })
   }
 
 
