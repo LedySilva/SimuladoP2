@@ -41,37 +41,46 @@ class UsuarioController {
   }
 
 
-  /**
-   * Cria novo usuario
-   */
-   async criaUsuario(request, response) {
-    const schema = Yup.object().shape({
-      nome:  Yup.string().required(),
-      sexo:  Yup.string(),
-      email: Yup.string().required(),
-      senha: Yup.string().required()
-    })
+/**
+ * Cria um usuario
+ */
+ async criaUsuario (request, response) {
+   try {
+     const schema = Yup.object().shape({
+       nome:  Yup.string().required(),
+       sexo:  Yup.string(),
+       email: Yup.string().required(),
+       senha: Yup.string().required()
+     })
+   
+     // Validar se os campos estão preenchidos e de acordo
+     if (!(await schema.isValid(request.body))) {
+       return response.status(400).json({codigo: 101, mensagem: 'Informações incorretas'})
+     }
+   
+     // Se o e-mail já foi usado
+     const emailExiste = await Usuarios.findOne({email: request.body.email})
+     if (emailExiste) {
+       return response.status(400).json({codigo: 104, mensagem: 'Este e-mail já esta em uso! Informe outro'})
+     }
+   
+     // Criptografando senha de usuário novo
+     await bcrypt.hash(request.body.senha, 8).then(function(hash) {
+       request.body.senha = hash
+     });
+   
+     Usuarios.create(request.body, function (erro) {
+       if (erro) {
+         return response.status(400).json({codigo: 103, mensagem: 'Erro no BD ao cadastrar usuario'})
+       }
+     })
+   
+     return response.status(200).json({codigo: 6, mensagem: 'Usuario criado!'})
 
-    // Validar se os campos estão preenchidos e de acordo
-    if (!(await schema.isValid(request.body))) {
-      return response.status(400).json({ codigo: 101, mensagem: 'Informações incorretas' })
-    }
-
-    const usuario = await Usuarios.findOne({ email: request.body.email })
-
-    if (usuario) {
-      return response.status(401).json({ codigo: 120, mensagem: 'E-mail já existe!' })
-    }
-
-    await usuario.create(request.body)
-    .then(function (retorno) {
-      return response.status(200).json({ codigo: 5, mensagem: 'Usuario criado!', retorno: retorno })
-    })
-    .catch(function (erro) {
-      return response.status(400).json({ codigo: 109, mensagem: 'Erro ao criar usuario', retorno: erro})
-    })
-    
-  }
+   } catch (e) {
+    return response.status(200).json({codigo: 120, mensagem: 'Erro: ' + e})
+   }
+}
 
 
   /**
